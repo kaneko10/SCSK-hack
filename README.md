@@ -11,7 +11,7 @@ python manage.py runserver
 3. [http://127.0.0.1:8000/](http://127.0.0.1:8000/) にアクセス
 
 ## データベースの確認方法
-1. スーパーユーザーの作成（最初とモデル更新時のみ）
+1. スーパーユーザーの作成（最初のみ）
 ```
 python manage.py createsuperuser
 ```

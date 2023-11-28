@@ -15,7 +15,7 @@ python manage.py runserver
 ```
 python manage.py createsuperuser
 ```
-ユーザー名とパスワードを入力。自分で考えたものでOK。
+ユーザー名とパスワードを入力。自分で考えたものでOK。  
 メールは入力なしでOK（そのままエンターキー）
 
 2. [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin) にアクセス

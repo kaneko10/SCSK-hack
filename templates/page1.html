@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+<h1>ページ1</h1>
+
+<div class="container-fluid text-center">
+    <span id="numSpan">{% if num %} {{num}} {% else %} 1 {% endif %}</span>
+    <form method="post" action="{% url 'page1' %}">
+        {% csrf_token %}
+        <button type="button" class="btn btn-secondary" onclick="clickButton('save')">保存</button>
+        <button type="button" class="btn btn-secondary" onclick="clickButton('twice')">2倍</button>
+    </form>
+</div>
+
+<script>
+    function clickButton(action) {
+        var num = parseInt(document.getElementById('numSpan').textContent, 10);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'page1' %}", true);
+        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // データ送信が成功した場合の処理
+                var responseData = JSON.parse(xhr.responseText);    // 返ってきた情報
+                num = responseData.num;
+                document.getElementById("numSpan").innerText = num; // 表示する値を更新
+            }
+        };
+        var context = { // 送信する情報
+            action: action,
+            num: num,
+        }
+        var data = JSON.stringify(context);
+        xhr.send(data); // JSONデータとして送信
+    }
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
